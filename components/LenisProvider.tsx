@@ -24,16 +24,16 @@ export default function LenisProvider({ children }: LenisProviderProps) {
   useEffect(() => {
     // Инициализация Lenis с оптимизированными настройками для производительности (особенно Яндекс браузер)
     const lenis = new Lenis({
-      duration: 1.2, // Длительность анимации скролла
+      duration: 1.33, // Ускорено примерно на 20%
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Easing функция для плавности (ease-out-expo)
       orientation: 'vertical', // Вертикальный скролл
       gestureOrientation: 'vertical',
       smoothWheel: true, // Плавный скролл колесиком мыши
-      wheelMultiplier: 1.5, // Увеличенный множитель для более агрессивного скролла (один скролл = один этап)
+      wheelMultiplier: 0.84, // Ускорено примерно на 20% для ПК
       syncTouch: true, // Синхронизация касаний для устранения рывков на мобильных
-      touchMultiplier: 2,
+      touchMultiplier: 0.72, // Ускорено примерно на 20% для мобильных
       infinite: false,
-      lerp: 0.15, // Немного увеличенный lerp для лучшей производительности в Яндекс браузере
+      lerp: 0.1, // Немного выше для более отзывчивого скролла
     })
 
     lenisRef.current = lenis
