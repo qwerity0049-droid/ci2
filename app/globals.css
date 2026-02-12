@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    /* Отключаем стандартный скролл для Lenis */
+    overflow-x: hidden;
+  }
+  
+  body {
+    @apply text-white;
+    background-color: #050505;
+    /* Улучшаем производительность скролла */
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .font-serif {
+    font-family: var(--font-cormorant), serif;
+  }
+  
+  .font-sans {
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+
+  .font-mono {
+    font-family: 'Courier New', Courier, monospace;
+  }
+}
+
+@layer components {
+  .hero-gradient {
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+  }
+  
+  .glass-panel {
+    @apply bg-white/5 border border-white/10 rounded-2xl;
+    /* Blur полностью убран для производительности */
+  }
+
+  
+  /* Glaido Text эффект - металлический отлив */
+  .glaido-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-zinc-600;
+  }
+
+  /* Металлический отлив с анимацией блика - оптимизированная версия */
+  .metal-shine {
+    background: linear-gradient(to bottom, #FFFFFF, #D1D5DB, #9CA3AF);
+    background-size: 100% 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: metal-shine 5s linear infinite;
+  }
+
+  @keyframes metal-shine {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 0% 100%;
+    }
+  }
+  
+  /* Noise эффект для фона - упрощен до минимума для производительности */
+  .noise-bg {
+    /* Используем простой паттерн вместо SVG фильтра для лучшей производительности */
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 4px),
+      repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 4px);
+    background-size: 200px 200px;
+    opacity: 0.01; /* Еще больше уменьшена непрозрачность */
+    pointer-events: none;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
