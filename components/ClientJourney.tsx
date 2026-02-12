@@ -257,23 +257,6 @@ export default function ClientJourney() {
                     ['20px', '0px', '0px']
                   )
 
-              // Для кнопки CTA - анимация с задержкой
-              const buttonOpacity = index === 3
-                ? useTransform(
-                    scrollYProgress,
-                    [stageStart + 0.1, stageCenter, 1],
-                    [0, 1, 1]
-                  )
-                : useTransform(scrollYProgress, [0, 1], [0, 0])
-              
-              const buttonY = index === 3
-                ? useTransform(
-                    scrollYProgress,
-                    [stageStart + 0.1, stageCenter, 1],
-                    ['30px', '0px', '0px']
-                  )
-                : useTransform(scrollYProgress, [0, 1], ['30px', '30px'])
-
               return (
                 <motion.div
                   key={stage.number}
@@ -306,18 +289,13 @@ export default function ClientJourney() {
 
                         {/* Описание - text-zinc-500 */}
                         <p
-                          className="font-sans text-sm sm:text-base md:text-lg mb-6 md:mb-8"
+                          className="font-sans text-sm sm:text-base md:text-lg mb-3 md:mb-8"
                           style={{ color: '#71717a', lineHeight: '1.8' }}
                         >
                           {stage.description}
                         </p>
 
-                        {/* Кнопка CTA с эффектом заполнения Glaido */}
-                        <CTAButton
-                          href="/catalog"
-                          opacity={buttonOpacity}
-                          y={buttonY}
-                        />
+                        <CTAButton href="/catalog" />
                       </>
                     ) : (
                       // Обычные этапы
@@ -358,36 +336,22 @@ export default function ClientJourney() {
   )
 }
 
-// Компонент кнопки CTA с насыщенным золотым стилем
-function CTAButton({ href, opacity, y }: { href: string; opacity: any; y: any }) {
-  const [isHovered, setIsHovered] = useState(false)
-
+// Статичная CTA-кнопка без hover-анимаций и фильтров
+function CTAButton({ href }: { href: string }) {
   return (
-    <motion.div
-      className="group relative inline-block w-full md:w-auto -mt-2 md:mt-0"
-      style={{
-        opacity,
-        y,
-      }}
-    >
+    <div className="relative inline-block w-full md:w-auto -mt-8 md:mt-0">
       <Link
         href={href}
-        className="relative inline-flex items-center justify-center w-full md:w-auto px-8 py-4 md:px-10 md:py-4 rounded-full font-sans text-base md:text-lg text-center uppercase font-extrabold overflow-hidden transition-all duration-300"
+        className="relative inline-flex items-center justify-center w-full md:w-auto px-8 py-4 md:px-10 md:py-4 rounded-full font-sans text-base md:text-lg text-center uppercase font-extrabold overflow-hidden"
         style={{
-          background: 'linear-gradient(135deg, #FFEB3B 0%, #FFD700 25%, #FFC107 50%, #FFD700 75%, #FFEB3B 100%)',
+          background: 'linear-gradient(135deg, #E6C96D 0%, #D4AF37 50%, #B9932F 100%)',
           border: '2px solid rgba(255, 255, 255, 0.6)',
-          boxShadow: isHovered 
-            ? '0 0 20px rgba(255, 215, 0, 0.8), 4px 4px 0px 0px #8B4513' 
-            : '0 0 15px rgba(255, 215, 0, 0.6), 4px 4px 0px 0px #8B4513',
-          transform: isHovered ? 'scale(1.02)' : 'scale(1)',
-          filter: isHovered ? 'brightness(1.1) saturate(1.15)' : 'none',
+          boxShadow: '0 0 10px rgba(212, 175, 55, 0.35), 4px 4px 0px 0px #8B4513',
         }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
         {/* Текст кнопки */}
         <span
-          className="relative z-10 transition-all duration-300"
+          className="relative z-10"
           style={{
             color: '#000000',
             fontWeight: 900,
@@ -397,6 +361,6 @@ function CTAButton({ href, opacity, y }: { href: string; opacity: any; y: any })
           Рассчитать стоимость
         </span>
       </Link>
-    </motion.div>
+    </div>
   )
 }
