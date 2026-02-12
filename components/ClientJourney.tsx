@@ -284,7 +284,7 @@ export default function ClientJourney() {
                   }}
                   transition={index === 0 ? { duration: 1.2, ease: [0.25, 0.1, 0.25, 1] } : undefined}
                 >
-                  <div className="max-w-md text-center md:text-left w-full">
+                  <div className={`max-w-md text-center md:text-left w-full ${index === 3 ? '-mt-6 md:mt-0' : ''}`}>
                     {index === 3 ? (
                       // Финальный этап - CTA стиль
                       <>
@@ -364,7 +364,7 @@ function CTAButton({ href, opacity, y }: { href: string; opacity: any; y: any })
 
   return (
     <motion.div
-      className="group relative inline-block w-full md:w-auto"
+      className="group relative inline-block w-full md:w-auto -mt-2 md:mt-0"
       style={{
         opacity,
         y,
@@ -380,20 +380,11 @@ function CTAButton({ href, opacity, y }: { href: string; opacity: any; y: any })
             ? '0 0 20px rgba(255, 215, 0, 0.8), 4px 4px 0px 0px #8B4513' 
             : '0 0 15px rgba(255, 215, 0, 0.6), 4px 4px 0px 0px #8B4513',
           transform: isHovered ? 'scale(1.02)' : 'scale(1)',
-          filter: isHovered ? 'brightness(1.4) saturate(1.2)' : 'brightness(1.2) saturate(1.1)',
+          filter: isHovered ? 'brightness(1.1) saturate(1.15)' : 'none',
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Эффект свечения */}
-        <div 
-          className="absolute inset-0 rounded-full"
-          style={{
-            background: 'radial-gradient(circle at center, rgba(255, 255, 255, 0.3) 0%, transparent 70%)',
-            opacity: isHovered ? 0.8 : 0.5,
-            transition: 'opacity 0.3s',
-          }}
-        />
         {/* Текст кнопки */}
         <span
           className="relative z-10 transition-all duration-300"
