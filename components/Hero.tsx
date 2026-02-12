@@ -9,10 +9,6 @@ import Lenis from '@studio-freight/lenis'
 
 // Компонент для анимированных букв - оптимизированная версия
 const AnimatedLetter = ({ letter, index, startDelay, isHighlight }: { letter: string; index: number; startDelay: number; isHighlight: boolean }) => {
-  if (letter === ' ') {
-    return <span className="inline-block w-2 md:w-3 lg:w-4" />
-  }
-  
   return (
     <motion.span
       className="inline-block"
@@ -66,12 +62,20 @@ export default function Hero() {
   }
 
   const title = 'Искусство безупречного входа'
-  // Мемоизируем разбиение строки для производительности
-  const letters = useMemo(() => title.split(''), [])
+  // Разбиваем заголовок на слова, чтобы на мобильных перенос шёл между словами, а не внутри них
+  const words = useMemo(() => title.split(' '), [])
   
   // Определяем индексы для слова "безупречного" (начинается с позиции 9)
   const highlightStartIndex = useMemo(() => title.indexOf('безупречного'), [])
   const highlightEndIndex = useMemo(() => highlightStartIndex + 'безупречного'.length, [highlightStartIndex])
+  const wordStartIndexes = useMemo(() => {
+    let offset = 0
+    return words.map((word, wordIndex) => {
+      const start = offset
+      offset += word.length + (wordIndex < words.length - 1 ? 1 : 0)
+      return start
+    })
+  }, [words])
   
   // Задержка для начала анимации заголовка (после плашки)
   const badgeAnimationDuration = 0.6
@@ -161,18 +165,24 @@ export default function Hero() {
             color: '#FFFFFF',
           }}
         >
-          {letters.map((letter, index) => {
-            const isHighlight = index >= highlightStartIndex && index < highlightEndIndex
-            return (
-              <AnimatedLetter 
-                key={index} 
-                letter={letter} 
-                index={index} 
-                startDelay={titleStartDelay}
-                isHighlight={isHighlight}
-              />
-            )
-          })}
+          {words.map((word, wordIndex) => (
+            <span key={`${word}-${wordIndex}`} className="inline-flex whitespace-nowrap">
+              {word.split('').map((letter, letterIndex) => {
+                const globalIndex = wordStartIndexes[wordIndex] + letterIndex
+                const isHighlight = globalIndex >= highlightStartIndex && globalIndex < highlightEndIndex
+                return (
+                  <AnimatedLetter
+                    key={`${word}-${wordIndex}-${letterIndex}`}
+                    letter={letter}
+                    index={globalIndex}
+                    startDelay={titleStartDelay}
+                    isHighlight={isHighlight}
+                  />
+                )
+              })}
+              {wordIndex < words.length - 1 && <span className="inline-block w-2 md:w-3 lg:w-4" />}
+            </span>
+          ))}
         </motion.h1>
 
         {/* Подзаголовок с акцентами на числах */}
@@ -190,7 +200,7 @@ export default function Hero() {
           transition={{
             duration: 1,
             ease: [0.25, 0.1, 0.25, 1],
-            delay: titleStartDelay + letters.length * 0.03 + 0.2,
+            delay: titleStartDelay + title.length * 0.03 + 0.2,
           }}
         >
           Создаем входные группы, которые становятся главной деталью вашего интерьера.{' '}
@@ -204,7 +214,7 @@ export default function Hero() {
           transition={{
             duration: 0.8,
             ease: [0.25, 0.1, 0.25, 1],
-            delay: titleStartDelay + letters.length * 0.03 + 0.4,
+            delay: titleStartDelay + title.length * 0.03 + 0.4,
           }}
           className="mt-8 md:mt-12"
         >
