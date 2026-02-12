@@ -58,8 +58,8 @@ export default function ClientJourney() {
   return (
     <section
       ref={containerRef}
-      className="relative bg-noir-bg pt-[20vh] md:pt-[20vh]"
-      style={{ height: '640vh', zIndex: 10 }}
+      className="relative bg-noir-bg pt-[20vh] md:pt-[20vh] h-[1280vh] md:h-[1082vh]"
+      style={{ zIndex: 10 }}
     >
       {/* Desktop: Flex Row - Фото слева | Текст справа */}
       <div className="sticky top-0 h-screen overflow-hidden">
